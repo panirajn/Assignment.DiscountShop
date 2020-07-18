@@ -15,6 +15,7 @@
         public string Description { get; }
 
         public DiscountStatus Status { get; private set; }
+        public DiscountCombinationItems DiscountCombinationItems { get; private set; }
 
         public void DeactivateProduct()
         {
@@ -24,6 +25,12 @@
         public void ActivateProduct()
         {
             Status = DiscountStatus.Active;
+        }
+
+        public Discount UpdateDiscountCombinationItems(DiscountCombinationItems discountCombinationItems)
+        {
+            DiscountCombinationItems = discountCombinationItems;
+            return this;
         }
     }
 }

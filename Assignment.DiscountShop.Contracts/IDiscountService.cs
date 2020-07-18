@@ -7,7 +7,9 @@ namespace Assignment.DiscountShop.Contracts
     {
         IEnumerable<Discount> GetAll();
         Discount Get(int id);
-        void CreateDiscount(Discount discount);
+        Discount CreateDiscount(Discount discount);
+        DiscountCombinationItems CreateDiscountCombinationItems();
+        Discount UpdateDiscountCombinationItems(DiscountCombinationItems discountCombinationItems);
         void DeactivateDiscount(Discount discount);
         void ActivateDiscount(Discount discount);
     }

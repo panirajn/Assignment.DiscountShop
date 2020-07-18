@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Assignment.DiscountShop.Tests
 {
-    public class Tests
+    public class DiscountServiceTest
     {
         [SetUp]
         public void Setup()
