@@ -7,7 +7,7 @@ namespace Assignment.DiscountShop.Contracts
     {
         IEnumerable<Product> GetAll();
         Product Get(int id);
-        Product CreateProduct(Product prod);
+        Product CreateProduct(string name, string description, decimal costPerUnit);
         void DeactivateProduct(Product prod);
         void ActivateProduct(Product prod);
     }

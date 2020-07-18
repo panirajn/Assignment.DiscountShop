@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
-namespace Assignment.DiscountShop.DiscountService
+namespace Assignment.DiscountShop.DiscountShopService
 {
     public class CustomerService:ICustomerService
     {
-        List<Customer> customers = new List<Customer>();
+        readonly List<Customer> customers = new List<Customer>();
 
         public int CreateCustomer(string name)
         {
-            throw new NotImplementedException();
+            int maxId = customers.Select(c => c.Id)
+                .DefaultIfEmpty(0).Max();
+            customers.Add(new Customer(++maxId, name));
+            return maxId;
         }
         public ShoppingCart CreateShoppingCart(int customerId)
         {

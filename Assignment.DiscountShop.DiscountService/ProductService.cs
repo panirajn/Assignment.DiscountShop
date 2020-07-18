@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
-namespace Assignment.DiscountShop.DiscountService
+namespace Assignment.DiscountShop.DiscountShopService
 {
     public class ProductService:IProductService
     {
         List<Product> products = new List<Product>();
-        Product IProductService.CreateProduct(Product prod)
+        public Product CreateProduct(string name, string description, decimal costPerUnit)
         {
-            throw new NotImplementedException();
+            int maxId = products.Select(c => c.Id)
+                .DefaultIfEmpty(0).Max();
+            products.Add(new Product(++maxId, name, description, costPerUnit));
+            return products[maxId];
         }
 
         public IEnumerable<Product> GetAll()

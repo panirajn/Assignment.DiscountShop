@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
-namespace Assignment.DiscountShop.DiscountService
+namespace Assignment.DiscountShop.DiscountShopService
 {
     public class ShoppingCartService: IShoppingCartService
     {

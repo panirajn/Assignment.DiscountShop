@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Assignment.DiscountShop.Contracts\Assignment.DiscountShop.Contracts.csproj" />
-    <ProjectReference Include="..\Assignment.DiscountShop.DiscountService\Assignment.DiscountShop.DiscountService.csproj" />
+    <ProjectReference Include="..\Assignment.DiscountShop.DiscountService\Assignment.DiscountShop.DiscountShopService.csproj" />
     <ProjectReference Include="..\Assignment.DiscountShop.Models\Assignment.DiscountShop.Models.csproj" />
     <ProjectReference Include="..\Assignment.DiscountShop.Utilities\Assignment.DiscountShop.Utilities.csproj" />
   </ItemGroup>

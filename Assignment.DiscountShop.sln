@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment.DiscountShop.Uti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment.DiscountShop.Tests", "Assignment.DiscountShop.Tests\Assignment.DiscountShop.Tests.csproj", "{6B24BAAF-5D5B-455C-837C-32E6ABA6AA2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment.DiscountShop.DiscountService", "Assignment.DiscountShop.DiscountService\Assignment.DiscountShop.DiscountService.csproj", "{EC3F2C45-4BC6-4124-8B3F-2CDB33F0AB62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment.DiscountShop.DiscountShopService", "Assignment.DiscountShop.DiscountService\Assignment.DiscountShop.DiscountShopService.csproj", "{EC3F2C45-4BC6-4124-8B3F-2CDB33F0AB62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

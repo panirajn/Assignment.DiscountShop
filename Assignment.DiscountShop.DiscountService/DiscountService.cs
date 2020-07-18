@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
-namespace Assignment.DiscountShop.DiscountService
+namespace Assignment.DiscountShop.DiscountShopService
 {
     public class DiscountService : IDiscountService
     {
-        List<Discount> discount = new List<Discount>();
-        List<DiscountCombinationItems> discountCombinationItems = new List<DiscountCombinationItems>();
+        readonly List<Discount> discounts = new List<Discount>();
+        readonly List<DiscountCombinationItems> discountCombinationItems = new List<DiscountCombinationItems>();
         public IEnumerable<Discount> GetAll()
         {
             throw new NotImplementedException();
@@ -19,17 +19,19 @@ namespace Assignment.DiscountShop.DiscountService
             throw new NotImplementedException();
         }
 
-        Discount IDiscountService.CreateDiscount(Discount discount)
+        public Discount CreateDiscount(string name, string description)
         {
             throw new NotImplementedException();
         }
 
-        DiscountCombinationItems IDiscountService.CreateDiscountCombinationItems()
+        public DiscountCombinationItems CreateDiscountCombinationItems(int discountId, 
+            DiscountCombinationItems dci)
         {
             throw new NotImplementedException();
         }
 
-        public Discount UpdateDiscountCombinationItems(DiscountCombinationItems discountCombinationItems)
+        public Discount UpdateDiscountCombinationItems(int discountId, 
+            DiscountCombinationItems discountCombinationItems)
         {
             throw new NotImplementedException();
         }

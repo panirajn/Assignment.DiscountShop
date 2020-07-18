@@ -14,5 +14,7 @@ namespace Assignment.DiscountShop.Models
         public int CustomerId { get; set; }
         public List<KeyValuePair<Product, int>> CartItems { get; set; }
         public IEnumerable<KeyValuePair<Discount, decimal>> DiscountsApplied { get; set; }
+
+        public decimal TotalBillAmount { get; set; }
     }
 }
