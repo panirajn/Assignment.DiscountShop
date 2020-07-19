@@ -15,7 +15,7 @@ namespace Assignment.DiscountShop.DiscountShopService
             int maxId = products.Select(c => c.Id)
                 .DefaultIfEmpty(0).Max();
             products.Add(new Product(++maxId, name, description, costPerUnit));
-            return products[maxId];
+            return products[--maxId];
         }
 
         public IEnumerable<Product> GetAll()

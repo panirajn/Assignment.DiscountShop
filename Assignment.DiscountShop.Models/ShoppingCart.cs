@@ -9,6 +9,9 @@ namespace Assignment.DiscountShop.Models
         {
             Id = id;
             CustomerId = customerId;
+            CartItems=new List<KeyValuePair<Product, int>>();
+            DiscountsApplied=new List<KeyValuePair<Discount, decimal>>();
+            TotalDiscountAmount = 0;
         }
 
         public int Id { get; set; }
@@ -17,12 +20,13 @@ namespace Assignment.DiscountShop.Models
         public List<KeyValuePair<Discount, decimal>> DiscountsApplied { get; set; }
 
         public decimal TotalBillAmount { get; set; }
+        public decimal TotalDiscountAmount { get; set; }
 
         public ShoppingCart Clone()
         {
             var scNew = new ShoppingCart(this.Id, this.CustomerId);
 
-            scNew.CartItems.ForEach(ci => { scNew.CartItems.Add(new KeyValuePair<Product, int>(ci.Key, ci.Value)); });
+            this.CartItems.ForEach(ci => { scNew.CartItems.Add(new KeyValuePair<Product, int>(ci.Key, ci.Value)); });
             return scNew;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Assignment.DiscountShop.Contracts;
@@ -8,51 +9,58 @@ namespace Assignment.DiscountShop.DiscountShopService
 {
     public class DiscountService : IDiscountService
     {
-        private readonly List<DiscountCombinationItems> discountCombinationItems = new List<DiscountCombinationItems>();
-        private readonly List<Discount> discounts = new List<Discount>();
+        private readonly List<Discount> _discounts = new List<Discount>();
 
         public IEnumerable<Discount> GetAll()
         {
-            return discounts;
+            return _discounts;
         }
 
         public Discount Get(int id)
         {
-            return discounts[id];
+            return _discounts[id];
         }
 
         public Discount CreateDiscount(string name, string description)
         {
-            var maxId = discounts.Select(c => c.Id)
+            var maxId = _discounts.Select(c => c.Id)
                 .DefaultIfEmpty(0).Max();
 
-            discounts.Add(new Discount(++maxId, name, description));
-            return discounts[maxId];
+            _discounts.Add(new Discount(++maxId, name, description));
+            return _discounts[--maxId];
         }
 
         public DiscountCombinationItems CreateDiscountCombinationItems(int discountId,
             DiscountCombinationItems dci)
         {
-            discounts[discountId].UpdateDiscountCombinationItems(dci);
+            Discount discount = _discounts.Find(d => d.Id == discountId);
+
+            if (discount==null) throw   new InvalidDataException("discountid does not exist");
+
+            discount.UpdateDiscountCombinationItems(dci);
             return dci;
         }
 
         public Discount UpdateDiscountCombinationItems(int discountId,
-            DiscountCombinationItems discountCombinationItems)
+            DiscountCombinationItems dci)
         {
-            discounts[discountId].UpdateDiscountCombinationItems(discountCombinationItems);
-            return discounts[discountId];
+            Discount discount = _discounts.Find(d => d.Id == discountId);
+
+            if (discount == null) throw new InvalidDataException("discountid does not exist");
+            
+            discount.UpdateDiscountCombinationItems(dci);
+            return _discounts[discountId];
         }
 
 
         public void DeactivateDiscount(Discount discount)
-        {
-            discounts[discount.Id].DeactivateProduct();
+        {   
+            discount.DeactivateProduct();
         }
 
         public void ActivateDiscount(Discount discount)
         {
-            discounts[discount.Id].ActivateProduct();
+            discount.ActivateProduct();
         }
     }
 }

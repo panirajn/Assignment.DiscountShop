@@ -29,7 +29,7 @@
 
         public Discount UpdateDiscountCombinationItems(DiscountCombinationItems discountCombinationItems)
         {
-            DiscountCombinationItems = discountCombinationItems;
+            this.DiscountCombinationItems = discountCombinationItems;
             return this;
         }
     }

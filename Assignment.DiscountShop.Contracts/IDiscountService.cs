@@ -11,7 +11,7 @@ namespace Assignment.DiscountShop.Contracts
         DiscountCombinationItems CreateDiscountCombinationItems(int discountId, 
             DiscountCombinationItems discountCombinationItems);
         Discount UpdateDiscountCombinationItems(int discountId, 
-            DiscountCombinationItems discountCombinationItems);
+            DiscountCombinationItems dci);
         void DeactivateDiscount(Discount discount);
         void ActivateDiscount(Discount discount);
     }
