@@ -16,7 +16,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioATest()
         {
-            IShoppingCartService scs = new ShoppingCartService();
+            IDiscountService discountService = new DiscountService();
+            IShoppingCartService scs = new ShoppingCartService(discountService);
             CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);
@@ -48,7 +49,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioBTest()
         {
-            IShoppingCartService scs = new ShoppingCartService();
+            IDiscountService discountService = new DiscountService();
+            IShoppingCartService scs = new ShoppingCartService(discountService);
             CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);
@@ -91,7 +93,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioCTest()
         {
-            IShoppingCartService scs = new ShoppingCartService();
+            IDiscountService discountService = new DiscountService();
+            IShoppingCartService scs = new ShoppingCartService(discountService);
             CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);

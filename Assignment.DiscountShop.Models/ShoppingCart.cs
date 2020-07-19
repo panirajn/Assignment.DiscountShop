@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Assignment.DiscountShop.Models
 {
@@ -13,8 +14,16 @@ namespace Assignment.DiscountShop.Models
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public List<KeyValuePair<Product, int>> CartItems { get; set; }
-        public IEnumerable<KeyValuePair<Discount, decimal>> DiscountsApplied { get; set; }
+        public List<KeyValuePair<Discount, decimal>> DiscountsApplied { get; set; }
 
         public decimal TotalBillAmount { get; set; }
+
+        public ShoppingCart Clone()
+        {
+            var scNew = new ShoppingCart(this.Id, this.CustomerId);
+
+            scNew.CartItems.ForEach(ci => { scNew.CartItems.Add(new KeyValuePair<Product, int>(ci.Key, ci.Value)); });
+            return scNew;
+        }
     }
 }
