@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
@@ -7,53 +8,51 @@ namespace Assignment.DiscountShop.DiscountShopService
 {
     public class DiscountService : IDiscountService
     {
-        readonly List<Discount> discounts = new List<Discount>();
-        readonly List<DiscountCombinationItems> discountCombinationItems = new List<DiscountCombinationItems>();
+        private readonly List<DiscountCombinationItems> discountCombinationItems = new List<DiscountCombinationItems>();
+        private readonly List<Discount> discounts = new List<Discount>();
+
         public IEnumerable<Discount> GetAll()
         {
-            throw new NotImplementedException();
+            return discounts;
         }
 
         public Discount Get(int id)
         {
-            throw new NotImplementedException();
+            return discounts[id];
         }
 
         public Discount CreateDiscount(string name, string description)
         {
-            throw new NotImplementedException();
+            var maxId = discounts.Select(c => c.Id)
+                .DefaultIfEmpty(0).Max();
+
+            discounts.Add(new Discount(++maxId, name, description));
+            return discounts[maxId];
         }
 
-        public DiscountCombinationItems CreateDiscountCombinationItems(int discountId, 
+        public DiscountCombinationItems CreateDiscountCombinationItems(int discountId,
             DiscountCombinationItems dci)
         {
-            throw new NotImplementedException();
+            discounts[discountId].UpdateDiscountCombinationItems(dci);
+            return dci;
         }
 
-        public Discount UpdateDiscountCombinationItems(int discountId, 
+        public Discount UpdateDiscountCombinationItems(int discountId,
             DiscountCombinationItems discountCombinationItems)
         {
-            throw new NotImplementedException();
+            discounts[discountId].UpdateDiscountCombinationItems(discountCombinationItems);
+            return discounts[discountId];
         }
 
-        public void CreateDiscount(Discount discount)
-        {
-            throw new NotImplementedException();
-        }
 
         public void DeactivateDiscount(Discount discount)
         {
-            throw new NotImplementedException();
+            discounts[discount.Id].DeactivateProduct();
         }
 
         public void ActivateDiscount(Discount discount)
         {
-            throw new NotImplementedException();
-        }
-
-        public void CreateDiscountCombinationItems()
-        {
-            throw new NotImplementedException();
+            discounts[discount.Id].ActivateProduct();
         }
     }
 }

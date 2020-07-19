@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.Models;
 
@@ -8,7 +9,7 @@ namespace Assignment.DiscountShop.DiscountShopService
 {
     public class ProductService:IProductService
     {
-        List<Product> products = new List<Product>();
+        readonly List<Product> products = new List<Product>();
         public Product CreateProduct(string name, string description, decimal costPerUnit)
         {
             int maxId = products.Select(c => c.Id)
@@ -19,12 +20,12 @@ namespace Assignment.DiscountShop.DiscountShopService
 
         public IEnumerable<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return products;
         }
 
         public Product Get(int id)
         {
-            throw new NotImplementedException();
+            return products.First(p => p.Id == id);
         }
 
         public void CreateProduct(Product prod)

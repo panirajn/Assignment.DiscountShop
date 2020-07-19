@@ -4,6 +4,7 @@ namespace Assignment.DiscountShop.Contracts
 {
     public interface IShoppingCartService
     {
+        ShoppingCart CreateShoppingCart(int id, int customerId);
         void AddItem(ShoppingCart shoppingCart, Product product, int count);
         void RemoveItem(ShoppingCart shoppingCart, Product product, int count);
 

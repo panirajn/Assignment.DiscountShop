@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assignment.DiscountShop.Contracts;
 using Assignment.DiscountShop.DiscountShopService;
 using Assignment.DiscountShop.Models;
 using NUnit.Framework;
@@ -15,7 +16,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioATest()
         {
-            CustomerService cs = new CustomerService();
+            IShoppingCartService scs = new ShoppingCartService();
+            CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);
 
@@ -35,7 +37,6 @@ namespace Assignment.DiscountShop.Tests
 
             ds.CreateDiscountCombinationItems(discountA.Id, dci);
 
-            ShoppingCartService scs = new ShoppingCartService();
             scs.AddItem(shoppingCart, pA, 1);
             scs.AddItem(shoppingCart, pB, 1);
             scs.AddItem(shoppingCart, pC, 1);
@@ -47,7 +48,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioBTest()
         {
-            CustomerService cs = new CustomerService();
+            IShoppingCartService scs = new ShoppingCartService();
+            CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);
 
@@ -78,8 +80,6 @@ namespace Assignment.DiscountShop.Tests
 
             ds.CreateDiscountCombinationItems(discountB.Id, dc2);
 
-
-            ShoppingCartService scs = new ShoppingCartService();
             scs.AddItem(shoppingCart, pA, 5);
             scs.AddItem(shoppingCart, pB, 5);
             scs.AddItem(shoppingCart, pC, 1);
@@ -91,7 +91,8 @@ namespace Assignment.DiscountShop.Tests
         [Test]
         public void ComputeBillScenarioCTest()
         {
-            CustomerService cs = new CustomerService();
+            IShoppingCartService scs = new ShoppingCartService();
+            CustomerService cs = new CustomerService(scs);
             int custId = cs.CreateCustomer("Paniraj N");
             ShoppingCart shoppingCart = cs.CreateShoppingCart(custId);
 
@@ -135,8 +136,6 @@ namespace Assignment.DiscountShop.Tests
 
             ds.CreateDiscountCombinationItems(discountCD.Id, dc3);
 
-
-            ShoppingCartService scs = new ShoppingCartService();
             scs.AddItem(shoppingCart, pA, 3);
             scs.AddItem(shoppingCart, pB, 5);
             scs.AddItem(shoppingCart, pC, 1);
