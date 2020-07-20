@@ -10,25 +10,26 @@ namespace Assignment.DiscountShop.DiscountShopService
 {
     public class ShoppingCartService : IShoppingCartService
     {
-        readonly List<ShoppingCart> _shoppingCarts = new List<ShoppingCart>();
         private readonly IDiscountService _discountService;
+        private readonly List<ShoppingCart> _shoppingCarts = new List<ShoppingCart>();
 
         public ShoppingCartService(IDiscountService discountService)
         {
             _discountService = discountService;
         }
+
         public void AddItem(ShoppingCart shoppingCart, Product product, int count)
         {
-            KeyValuePair<Product, int> item = new KeyValuePair<Product, int>();
-            if (shoppingCart.CartItems!=null)
+            var item = new KeyValuePair<Product, int>();
+            if (shoppingCart.CartItems != null)
                 item = shoppingCart.CartItems.Find(ci => ci.Key.Id == product.Id);
             else
-            {
-                shoppingCart.CartItems=new List<KeyValuePair<Product, int>>();
-            }
+                shoppingCart.CartItems = new List<KeyValuePair<Product, int>>();
 
             if (item.Equals(new KeyValuePair<Product, int>()))
+            {
                 shoppingCart.CartItems.Add(new KeyValuePair<Product, int>(product, count));
+            }
             else
             {
                 shoppingCart.CartItems.Remove(item);
@@ -38,7 +39,7 @@ namespace Assignment.DiscountShop.DiscountShopService
 
         public void RemoveItem(ShoppingCart shoppingCart, Product product, int count)
         {
-            KeyValuePair<Product, int> item = new KeyValuePair<Product, int>();
+            var item = new KeyValuePair<Product, int>();
 
             if (shoppingCart.CartItems != null)
                 item = shoppingCart.CartItems.First(ci => ci.Key.Id == product.Id);
@@ -50,15 +51,15 @@ namespace Assignment.DiscountShop.DiscountShopService
         public ShoppingCart ComputeBill(ShoppingCart shoppingCart)
         {
             var applicableDiscounts = GetAllPossibleDiscountsApplied(shoppingCart);
-            ShoppingCart shoppingCartClone = shoppingCart.Clone();
+            var shoppingCartClone = shoppingCart.Clone();
 
             foreach (var applicableDiscount in applicableDiscounts)
-            {
                 ApplyDiscount(shoppingCartClone, applicableDiscount);
-            }
 
             shoppingCart.TotalBillAmount = shoppingCart.CartItems.Select(ci => ci.Key.CostPerUnit * ci.Value).Sum();
             shoppingCart.TotalDiscountAmount = shoppingCartClone.TotalDiscountAmount;
+            shoppingCart.DiscountsApplied = shoppingCartClone.DiscountsApplied;
+
             return shoppingCart;
         }
 
@@ -71,12 +72,12 @@ namespace Assignment.DiscountShop.DiscountShopService
         {
             var customerShoppingCart = _shoppingCarts.Where(sc => sc.CustomerId == customerId).Select(sc => sc);
 
-            if (customerShoppingCart.Count()==1)
+            if (customerShoppingCart.Count() == 1)
                 return customerShoppingCart.First();
-            if (customerShoppingCart.Count()> 1)
+            if (customerShoppingCart.Count() > 1)
                 throw new InvalidDataException("more than one shopping carts exist for one customer");
 
-            int maxId = _shoppingCarts.Select(sc => sc.Id)
+            var maxId = _shoppingCarts.Select(sc => sc.Id)
                 .DefaultIfEmpty(0).Max();
 
             _shoppingCarts.Add(new ShoppingCart(++maxId, customerId));
@@ -89,9 +90,9 @@ namespace Assignment.DiscountShop.DiscountShopService
             var discountCombinationItems = discount.DiscountCombinationItems;
             decimal discountAmount = 0;
 
-            List <KeyValuePair<Product, int>> itemsMarkedForDiscount = new List<KeyValuePair<Product, int>>();
+            var itemsMarkedForDiscount = new List<KeyValuePair<Product, int>>();
 
-            bool eligibleForDiscount = false;
+            var eligibleForDiscount = false;
             foreach (var itemsCountsCombination in discountCombinationItems.ItemsCountsCombinations)
             {
                 var shoppedItem = shoppingCartClone.CartItems
@@ -111,7 +112,7 @@ namespace Assignment.DiscountShop.DiscountShopService
                     itemsMarkedForDiscount.Add(shoppedItem);
                     var prod = shoppedItem.Key;
                     shoppingCartClone.CartItems.Remove(shoppedItem);
-                    var remainingCount = shoppedItem.Value - itemsCountsCombination.Value; 
+                    var remainingCount = shoppedItem.Value - itemsCountsCombination.Value;
                     shoppingCartClone.CartItems.Add(new KeyValuePair<Product, int>(prod, remainingCount));
                 }
             }
@@ -119,50 +120,50 @@ namespace Assignment.DiscountShop.DiscountShopService
             if (eligibleForDiscount)
             {
                 discountAmount = discountCombinationItems.DiscountAmount;
-                KeyValuePair<Discount, decimal> ds= shoppingCartClone.DiscountsApplied.Find(s => s.Key == discount);
+                var ds = shoppingCartClone.DiscountsApplied.Find(s => s.Key == discount);
 
                 if (ds.Equals(new KeyValuePair<Discount, decimal>()))
                 {
-                    shoppingCartClone.DiscountsApplied.Add(new KeyValuePair<Discount, decimal>(discount, discountAmount));
+                    shoppingCartClone.DiscountsApplied.Add(
+                        new KeyValuePair<Discount, decimal>(discount, discountAmount));
                 }
                 else
                 {
                     discountAmount = ds.Value;
                     shoppingCartClone.DiscountsApplied.Remove(ds);
-                    shoppingCartClone.DiscountsApplied.Add(new KeyValuePair<Discount, decimal>(discount, discountAmount));
+                    shoppingCartClone.DiscountsApplied.Add(
+                        new KeyValuePair<Discount, decimal>(discount, discountAmount));
                 }
             }
             else //reverse and restore
             {
-                 itemsMarkedForDiscount.ForEach(it =>
-                 {
-                     shoppingCartClone.CartItems.Remove(shoppingCartClone.CartItems.Find(p => p.Key == it.Key));
-                     shoppingCartClone.CartItems.Add(it);
-                 });
+                itemsMarkedForDiscount.ForEach(it =>
+                {
+                    shoppingCartClone.CartItems.Remove(shoppingCartClone.CartItems.Find(p => p.Key == it.Key));
+                    shoppingCartClone.CartItems.Add(it);
+                });
             }
 
             if (discountAmount == 0) return;
-            else
-            {
-                shoppingCartClone.TotalDiscountAmount += discountAmount;
-                ApplyDiscount(shoppingCartClone, discount);
-            }
+
+            shoppingCartClone.TotalDiscountAmount += discountAmount;
+            ApplyDiscount(shoppingCartClone, discount);
         }
 
         private IEnumerable<Discount> GetAllPossibleDiscountsApplied(ShoppingCart sc)
         {
-            List<Discount> discounts = _discountService.GetAll().Where(d => d.Status == DiscountStatus.Active)
+            var discounts = _discountService.GetAll().Where(d => d.Status == DiscountStatus.Active)
                 .ToList();
-            List<Discount> applicaDiscounts = new List<Discount>();
+            var applicaDiscounts = new List<Discount>();
 
-            IEnumerable<Product> products = sc.CartItems.Select(ci => ci.Key);
+            var products = sc.CartItems.Select(ci => ci.Key);
 
             foreach (var product in products)
             {
-                IEnumerable<Discount> discountsHavingProduct = discounts
+                var discountsHavingProduct = discounts
                     .Where(d => d.DiscountCombinationItems
-                            .ItemsCountsCombinations
-                                .Any(ic => ic.Key == product))
+                        .ItemsCountsCombinations
+                        .Any(ic => ic.Key == product))
                     .Select(disc => disc);
 
                 applicaDiscounts.AddRange(discountsHavingProduct);
